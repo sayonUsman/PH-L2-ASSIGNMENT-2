@@ -34,7 +34,28 @@ const saveNewUserInfo = async (req: Request, res: Response) => {
       message: "Something went wrong!!!",
       error: {
         code: 404,
-        description: "Something went wrong!!!",
+        description: error,
+      },
+    });
+  }
+};
+
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const result = await UserServices.getAllUsersFromDB();
+
+    res.status(200).json({
+      success: true,
+      message: "Users fetched successfully!",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong!!!",
+      error: {
+        code: 404,
+        description: error,
       },
     });
   }
@@ -42,4 +63,5 @@ const saveNewUserInfo = async (req: Request, res: Response) => {
 
 export const UserControllers = {
   saveNewUserInfo,
+  getAllUsers,
 };

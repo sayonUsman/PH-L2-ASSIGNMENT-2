@@ -7,4 +7,11 @@ const saveNewUserInfoToDB = async (userInfo: TUser) => {
   return result;
 };
 
-export const UserServices = { saveNewUserInfoToDB };
+const getAllUsersFromDB = async () => {
+  const result = await User.find().select(
+    "-_id -userId -password -isActive -hobbies -orders"
+  );
+  return result;
+};
+
+export const UserServices = { saveNewUserInfoToDB, getAllUsersFromDB };
