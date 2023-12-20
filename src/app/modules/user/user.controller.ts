@@ -21,20 +21,20 @@ const saveNewUserInfo = async (req: Request, res: Response) => {
     } else {
       res.status(500).json({
         success: false,
-        message: "Something went wrong!!!",
+        message: "Something went wrong!",
         error: {
           code: 404,
           description: validUserInfo.error,
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong!!!",
+      message: error?.message,
       error: {
         code: 404,
-        description: error,
+        description: error?.message,
       },
     });
   }
@@ -49,13 +49,35 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: "Users fetched successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong!!!",
+      message: error?.message,
       error: {
         code: 404,
-        description: error,
+        description: error?.message,
+      },
+    });
+  }
+};
+
+const getUser = async (req: Request, res: Response) => {
+  try {
+    const userId: number = Number(req.params.userId);
+    const result = await UserServices.getUserFromDB(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 404,
+        description: error?.message,
       },
     });
   }
@@ -64,4 +86,5 @@ const getAllUsers = async (req: Request, res: Response) => {
 export const UserControllers = {
   saveNewUserInfo,
   getAllUsers,
+  getUser,
 };
