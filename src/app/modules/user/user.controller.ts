@@ -125,9 +125,32 @@ const updateAndSaveUserInfo = async (req: Request, res: Response) => {
   }
 };
 
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const userId: number = Number(req.params.userId);
+    const result = await UserServices.deleteUserFromDB(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   saveNewUserInfo,
   getAllUsers,
   getUser,
   updateAndSaveUserInfo,
+  deleteUser,
 };

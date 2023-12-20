@@ -43,9 +43,21 @@ const updateAndSaveUserInfoToDB = async (userInfo: TUser, userId: number) => {
   }
 };
 
+const deleteUserFromDB = async (userId: number) => {
+  const user = new User();
+
+  if (await user.isUserExist(userId)) {
+    const result = await User.deleteOne({ userId });
+    return result;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
 export const UserServices = {
   saveNewUserInfoToDB,
   getAllUsersFromDB,
   getUserFromDB,
   updateAndSaveUserInfoToDB,
+  deleteUserFromDB,
 };

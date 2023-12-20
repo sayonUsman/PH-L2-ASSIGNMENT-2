@@ -7,5 +7,5 @@ router.post("/api/users", UserControllers.saveNewUserInfo);
 router.get("/api/users", UserControllers.getAllUsers);
 router.get("/api/users/:userId", UserControllers.getUser);
 router.put("/api/users/:userId", UserControllers.updateAndSaveUserInfo);
-
+router.delete("/api/users/:userId", UserControllers.deleteUser);
 export const UserRoutes = router;
