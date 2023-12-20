@@ -32,8 +32,20 @@ const getUserFromDB = async (userId: number) => {
   }
 };
 
+const updateAndSaveUserInfoToDB = async (userInfo: TUser, userId: number) => {
+  const user = new User();
+
+  if (await user.isUserExist(userId)) {
+    const result = await User.updateOne({ userId }, { $set: userInfo });
+    return result;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
 export const UserServices = {
   saveNewUserInfoToDB,
   getAllUsersFromDB,
   getUserFromDB,
+  updateAndSaveUserInfoToDB,
 };

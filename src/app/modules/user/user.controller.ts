@@ -83,8 +83,51 @@ const getUser = async (req: Request, res: Response) => {
   }
 };
 
+const updateAndSaveUserInfo = async (req: Request, res: Response) => {
+  try {
+    const newUserInfo = req.body;
+    const userId = Number(req.params.userId);
+
+    // validate user information
+    const validUserInfo = userValidationSchema.safeParse(newUserInfo);
+
+    // send response
+    if (validUserInfo.success) {
+      const result = await UserServices.updateAndSaveUserInfoToDB(
+        validUserInfo.data,
+        userId
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "User updated successfully!",
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong!",
+        error: {
+          code: 404,
+          description: validUserInfo.error,
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   saveNewUserInfo,
   getAllUsers,
   getUser,
+  updateAndSaveUserInfo,
 };
