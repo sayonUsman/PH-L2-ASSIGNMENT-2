@@ -13,6 +13,14 @@ const addressValidationSchema = z.object({
   country: z.string(),
 });
 
+export const ordersValidationSchema = z.array(
+  z.object({
+    productName: z.string(),
+    price: z.number(),
+    quantity: z.number(),
+  })
+);
+
 const userValidationSchema = z.object({
   userId: z.number({
     required_error: "User id is required",
@@ -37,6 +45,7 @@ const userValidationSchema = z.object({
   isActive: z.boolean(),
   hobbies: z.array(z.string()),
   address: addressValidationSchema,
+  orders: ordersValidationSchema.optional(),
 });
 
 export default userValidationSchema;

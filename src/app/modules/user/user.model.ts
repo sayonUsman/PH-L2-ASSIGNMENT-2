@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import {
   TAddress,
   TFullName,
+  TOrders,
   TUser,
   TUserMethods,
   UserModel,
@@ -20,6 +21,12 @@ const addressSchema = new Schema<TAddress>({
   country: { type: String, required: true },
 });
 
+const ordersSchema = new Schema<TOrders>({
+  productName: { type: String, required: true },
+  price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+});
+
 const userSchema = new Schema<TUser, UserModel, TUserMethods>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true },
@@ -30,6 +37,7 @@ const userSchema = new Schema<TUser, UserModel, TUserMethods>({
   isActive: { type: Boolean, required: true, default: true },
   hobbies: { type: [String], required: true },
   address: { type: addressSchema, required: true },
+  orders: { type: [ordersSchema] },
 });
 
 // middlewares
