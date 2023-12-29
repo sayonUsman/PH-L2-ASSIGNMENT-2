@@ -170,6 +170,28 @@ const addOrderOrUpdateOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getUserAllOrder = async (req: Request, res: Response) => {
+  try {
+    const userId: number = Number(req.params.userId);
+    const result = await UserServices.getUserAllOrderFromDB(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "Order fetched successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 404,
+        description: error?.message,
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   saveNewUserInfo,
   getAllUsers,
@@ -177,4 +199,5 @@ export const UserControllers = {
   updateAndSaveUserInfo,
   deleteUser,
   addOrderOrUpdateOrder,
+  getUserAllOrder,
 };
