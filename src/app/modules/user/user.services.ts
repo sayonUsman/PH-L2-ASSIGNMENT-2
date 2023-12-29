@@ -78,6 +78,19 @@ const getUserAllOrderFromDB = async (userId: number) => {
   }
 };
 
+const getUserToCalculateTotalPriceOfOrder = async (userId: number) => {
+  const user = new User();
+
+  if (await user.isUserExist(userId)) {
+    const result = await User.findOne({ userId }).select(
+      "-_id -userId -username -password -fullName -age -email -isActive -hobbies -address -__v"
+    );
+    return result;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
 export const UserServices = {
   saveNewUserInfoToDB,
   getAllUsersFromDB,
@@ -86,4 +99,5 @@ export const UserServices = {
   deleteUserFromDB,
   addOrderOrUpdateOrderToDB,
   getUserAllOrderFromDB,
+  getUserToCalculateTotalPriceOfOrder,
 };
